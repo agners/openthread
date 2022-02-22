@@ -131,6 +131,7 @@ SOURCES_COMMON                                  = \
     api/coap_api.cpp                              \
     api/coap_secure_api.cpp                       \
     api/commissioner_api.cpp                      \
+    api/coprocessor_rpc_api.cpp                   \
     api/crypto_api.cpp                            \
     api/dataset_api.cpp                           \
     api/dataset_ftd_api.cpp                       \
@@ -200,6 +201,7 @@ SOURCES_COMMON                                  = \
     common/tlvs.cpp                               \
     common/trickle_timer.cpp                      \
     common/uptime.cpp                             \
+    coprocessor/rpc.cpp                           \
     crypto/aes_ccm.cpp                            \
     crypto/aes_ecb.cpp                            \
     crypto/crypto_platform.cpp                    \
@@ -323,6 +325,7 @@ SOURCES_COMMON                                  = \
     $(NULL)
 
 RADIO_SOURCES_COMMON                       = \
+    api/coprocessor_rpc_api.cpp              \
     api/diags_api.cpp                        \
     api/error_api.cpp                        \
     api/instance_api.cpp                     \
@@ -338,6 +341,7 @@ RADIO_SOURCES_COMMON                       = \
     common/tasklet.cpp                       \
     common/timer.cpp                         \
     common/uptime.cpp                        \
+    coprocessor/rpc.cpp                      \
     crypto/aes_ccm.cpp                       \
     crypto/aes_ecb.cpp                       \
     crypto/crypto_platform.cpp               \
@@ -464,6 +468,7 @@ HEADERS_COMMON                                  = \
     config/child_supervision.h                    \
     config/coap.h                                 \
     config/commissioner.h                         \
+    config/coprocessor_rpc.h                      \
     config/crypto.h                               \
     config/dataset_updater.h                      \
     config/dhcp6_client.h                         \
@@ -492,6 +497,7 @@ HEADERS_COMMON                                  = \
     config/srp_server.h                           \
     config/time_sync.h                            \
     config/tmf.h                                  \
+    coprocessor/rpc.hpp                           \
     crypto/aes_ccm.hpp                            \
     crypto/aes_ecb.hpp                            \
     crypto/context_size.hpp                       \
