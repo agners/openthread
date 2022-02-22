@@ -155,7 +155,6 @@
  * @{
  *
  * @defgroup plat-alarm               Alarm
- * @defgroup plat-coprocessor-rpc     Co-processor Remore Procedure Call
  * @defgroup plat-crypto              Crypto - Platform
  * @defgroup plat-entropy             Entropy
  * @defgroup plat-factory-diagnostics Factory Diagnostics - Platform
