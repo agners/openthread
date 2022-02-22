@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020, The OpenThread Authors.
+ *  Copyright (c) 2021, The OpenThread Authors.
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -28,65 +28,61 @@
 
 /**
  * @file
- *   This file implements the lookup table (binary search) functionality.
+ *   The file implements POSIX system utilities.
  */
 
+#include "utils.hpp"
+
+#include <errno.h>
+#include <stdio.h>
 #include <string.h>
 
-#include "lookup_table.hpp"
-
 #include "common/code_utils.hpp"
+#include "common/logging.hpp"
 
 namespace ot {
-namespace Utils {
+namespace Posix {
 
-const void *LookupTable::Find(const char *aName,
-                              const void *aTable,
-                              uint16_t    aLength,
-                              uint16_t    aTableEntrySize,
-                              NameGetter  aNameGetter)
+enum
 {
-    const void *entry;
-    uint16_t    left  = 0;
-    uint16_t    right = aLength;
+    kSystemCommandMaxLength = 1024, ///< Max length of a system call command.
+    kOutputBufferSize       = 1024, ///< Buffer size of command output.
+};
 
-    while (left < right)
+otError ExecuteCommand(const char *aFormat, ...)
+{
+    char    cmd[kSystemCommandMaxLength];
+    char    buf[kOutputBufferSize];
+    va_list args;
+    FILE *  file;
+    int     exitCode;
+    otError error = OT_ERROR_NONE;
+
+    va_start(args, aFormat);
+    vsnprintf(cmd, sizeof(cmd), aFormat, args);
+    va_end(args);
+
+    file = popen(cmd, "r");
+    VerifyOrExit(file != nullptr, error = OT_ERROR_FAILED);
+    while (fgets(buf, sizeof(buf), file))
     {
-        uint16_t middle = (left + right) / 2;
-        int      compare;
-
-        // Note that `aTable` array entry type is not known here and
-        // only its size is given as `aTableEntrySize`. Based on this,
-        // we can calculate the pointer to the table entry at any index
-        // (such as `[middle]`) which is then passed to the given
-        // `aNameGetter` function which knows how to cast the void
-        // pointer to proper entry type and get the enclosed `mName`
-        // field. This model keeps the implementation generic and
-        // re-usable allowing it to be used with any entry type.
-
-        entry = reinterpret_cast<const uint8_t *>(aTable) + aTableEntrySize * middle;
-
-        compare = strcmp(aName, aNameGetter(entry));
-
-        if (compare == 0)
+        size_t length = strlen(buf);
+        if (buf[length] == '\n')
         {
-            ExitNow();
+            buf[length] = '\0';
         }
-        else if (compare > 0)
-        {
-            left = middle + 1;
-        }
-        else
-        {
-            right = middle;
-        }
+        otLogInfoPlat("%s", buf);
     }
-
-    entry = nullptr;
-
+    exitCode = pclose(file);
+    otLogInfoPlat("Execute command `%s` = %d", cmd, exitCode);
+    VerifyOrExit(exitCode == 0, error = OT_ERROR_FAILED);
 exit:
-    return entry;
+    if (error != OT_ERROR_NONE && errno != 0)
+    {
+        otLogInfoPlat("Got an error when executing command `%s`: `%s`", cmd, strerror(errno));
+    }
+    return error;
 }
 
-} // namespace Utils
+} // namespace Posix
 } // namespace ot
