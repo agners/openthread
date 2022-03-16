@@ -911,6 +911,7 @@ otError NcpBase::HandlePendingTransmit(PendingCommandEntry *entry)
     frame = otLinkRawGetTransmitBuffer(mInstance);
     VerifyOrExit(frame != nullptr, error = OT_ERROR_NO_BUFS);
     memcpy(frame, &entry->mTransmitFrame, sizeof(*frame));
+    frame->mIid = entry->mIid;
     SuccessOrExit(error = otLinkRawTransmit(mInstance, &NcpBase::LinkRawTransmitDone));
 
 exit:

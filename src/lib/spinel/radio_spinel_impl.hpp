@@ -249,7 +249,7 @@ void RadioSpinel<InterfaceType, ProcessContextType>::Init(bool         aResetRad
     SuccessOrExit(error = WaitResponse());
 
 #if OPENTHREAD_SPINEL_CONFIG_RCP_RESTORATION_MAX_COUNT > 0
-    while (mRcpFailed)
+    while (mRcpFailure != kRcpFailureNone)
     {
         RecoverFromRcpFailure();
     }
