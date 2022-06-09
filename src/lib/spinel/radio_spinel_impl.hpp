@@ -1922,20 +1922,20 @@ void RadioSpinel<InterfaceType, ProcessContextType>::HandleTransmitDone(uint32_t
     aBuffer += unpacked;
     aLength -= static_cast<uint16_t>(unpacked);
 
+    unpacked = spinel_datatype_unpack(aBuffer, aLength, SPINEL_DATATYPE_BOOL_S, &framePending);
+    VerifyOrExit(unpacked > 0, error = OT_ERROR_PARSE);
+
+    aBuffer += unpacked;
+    aLength -= static_cast<uint16_t>(unpacked);
+
+    unpacked = spinel_datatype_unpack(aBuffer, aLength, SPINEL_DATATYPE_BOOL_S, &headerUpdated);
+    VerifyOrExit(unpacked > 0, error = OT_ERROR_PARSE);
+
+    aBuffer += unpacked;
+    aLength -= static_cast<uint16_t>(unpacked);
+
     if (status == SPINEL_STATUS_OK)
     {
-        unpacked = spinel_datatype_unpack(aBuffer, aLength, SPINEL_DATATYPE_BOOL_S, &framePending);
-        VerifyOrExit(unpacked > 0, error = OT_ERROR_PARSE);
-
-        aBuffer += unpacked;
-        aLength -= static_cast<uint16_t>(unpacked);
-
-        unpacked = spinel_datatype_unpack(aBuffer, aLength, SPINEL_DATATYPE_BOOL_S, &headerUpdated);
-        VerifyOrExit(unpacked > 0, error = OT_ERROR_PARSE);
-
-        aBuffer += unpacked;
-        aLength -= static_cast<uint16_t>(unpacked);
-
         SuccessOrExit(error = ParseRadioFrame(mAckRadioFrame, aBuffer, aLength, unpacked));
         aBuffer += unpacked;
         aLength -= static_cast<uint16_t>(unpacked);

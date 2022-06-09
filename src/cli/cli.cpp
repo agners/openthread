@@ -5230,9 +5230,13 @@ otError Interpreter::ProcessCommand(Arg aArgs[])
     }
     else
     {
-        error = ProcessUserCommands(aArgs);
+        VerifyOrExit((error = ProcessUserCommands(aArgs)) != OT_ERROR_NONE);
+#if OPENTHREAD_CONFIG_COPROCESSOR_RPC_ENABLE
+        VerifyOrExit((error = ProcessCRPC(aArgs)) != OT_ERROR_NONE);
+#endif
     }
 
+exit:
     return error;
 }
 

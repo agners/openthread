@@ -325,7 +325,9 @@ private:
 #endif
 
     otError ProcessCommand(Arg aArgs[]);
-
+#if OPENTHREAD_CONFIG_COPROCESSOR_RPC_ENABLE
+    otError ProcessCRPC(Arg aArgs[]);
+#endif
     template <CommandId kCommandId> otError Process(Arg aArgs[]);
 
     otError ProcessUserCommands(Arg aArgs[]);
