@@ -594,6 +594,46 @@ void otPlatDiagRadioReceived(otInstance *aInstance, otRadioFrame *aFrame, otErro
     OT_UNUSED_VARIABLE(aError);
 }
 
+otError otPlatDiagTxStreamRandom(void)
+{
+    char cmd[OPENTHREAD_CONFIG_DIAG_CMD_LINE_BUFFER_SIZE];
+
+    snprintf(cmd, sizeof(cmd), "stream random");
+    return (sRadioSpinel.PlatDiagProcess(cmd, nullptr, 0));
+}
+
+otError otPlatDiagTxStreamTone(void)
+{
+    char cmd[OPENTHREAD_CONFIG_DIAG_CMD_LINE_BUFFER_SIZE];
+
+    snprintf(cmd, sizeof(cmd), "stream tone");
+    return (sRadioSpinel.PlatDiagProcess(cmd, nullptr, 0));
+}
+
+otError otPlatDiagTxStreamStop(void)
+{
+    char cmd[OPENTHREAD_CONFIG_DIAG_CMD_LINE_BUFFER_SIZE];
+
+    snprintf(cmd, sizeof(cmd), "stream stop");
+    return (sRadioSpinel.PlatDiagProcess(cmd, nullptr, 0));
+}
+
+
+otError otPlatDiagTxStreamAddrMatch(uint8_t enable)
+{
+   char cmd[OPENTHREAD_CONFIG_DIAG_CMD_LINE_BUFFER_SIZE];
+
+    snprintf(cmd, sizeof(cmd), "stream addrMatch %d", enable);
+    return (sRadioSpinel.PlatDiagProcess(cmd, nullptr, 0));
+}
+otError otPlatDiagTxStreamAutoAck(uint8_t autoAckEnabled)
+{
+   char cmd[OPENTHREAD_CONFIG_DIAG_CMD_LINE_BUFFER_SIZE];
+
+    snprintf(cmd, sizeof(cmd), "stream autoAck %d", autoAckEnabled);
+    return (sRadioSpinel.PlatDiagProcess(cmd, nullptr, 0));
+}
+
 void otPlatDiagAlarmCallback(otInstance *aInstance)
 {
     OT_UNUSED_VARIABLE(aInstance);

@@ -4809,6 +4809,7 @@ exit:
 #if OPENTHREAD_CONFIG_COPROCESSOR_RPC_ENABLE
 otError Interpreter::ProcessCRPC(Arg aArgs[])
 {
+    // This is a host-side function
     otError error = OT_ERROR_INVALID_COMMAND;
 
     char *args[kMaxArgs];

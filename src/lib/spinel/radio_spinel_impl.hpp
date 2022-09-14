@@ -1944,7 +1944,7 @@ void RadioSpinel<InterfaceType, ProcessContextType>::HandleTransmitDone(uint32_t
     }
     else
     {
-        ExitNow(error = SpinelStatusToOtError(status));
+        error = SpinelStatusToOtError(status);
     }
 
     static_cast<Mac::TxFrame *>(mTransmitFrame)->SetIsHeaderUpdated(headerUpdated);

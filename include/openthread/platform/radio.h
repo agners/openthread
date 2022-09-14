@@ -1143,6 +1143,33 @@ otError otPlatRadioConfigureEnhAckProbing(otInstance *        aInstance,
                                           otShortAddress      aShortAddress,
                                           const otExtAddress *aExtAddress);
 
+
+#if OPENTHREAD_CONFIG_DIAG_ENABLE
+
+/**
+ * Enable transmitting stream random character mode.
+ *
+ */
+otError otPlatDiagTxStreamRandom(void);
+
+/**
+ * Enable transmitting stream unmodulated tone mode.
+ *
+ */
+otError otPlatDiagTxStreamTone(void);
+
+/**
+ * Disable transmitting stream mode.
+ *
+ */
+otError otPlatDiagTxStreamStop(void);
+
+otError otPlatDiagTxStreamAddrMatch(uint8_t enable);
+otError otPlatDiagTxStreamAutoAck(uint8_t autoAckEnabled);
+
+#endif // #if OPENTHREAD_CONFIG_DIAG_ENABLE
+
+
 /**
  * @}
  *
